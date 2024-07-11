@@ -10,7 +10,7 @@ def get_data(config_path):
     #print(config)
     data_path = config["data_source"]["s3_data"]
     df = pd.read_csv(data_path, sep=",", encoding='utf-8')
-    #print(df)
+    # print(df)
     return df
 
 def read_params(config_path):
@@ -18,7 +18,7 @@ def read_params(config_path):
         config=yaml.safe_load(yaml_file)
         return config
 
-if __name__=="__main___":
+if __name__=="__main__":
     args = argparse.ArgumentParser()
     args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
