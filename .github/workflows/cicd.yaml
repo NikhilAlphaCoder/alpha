@@ -37,3 +37,5 @@ jobs:
               run: |
                 echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
                 docker push nikhiltmahendrakar/medical:latest
+              env:
+                DOCKER_CLI_ACT: 1
