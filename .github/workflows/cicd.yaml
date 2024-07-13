@@ -14,22 +14,26 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
-            - name: Set Up Python 3.11
+            - name: Check out code
               uses: actions/checkout@v3
+
+            - name: Set Up Python 3.11
+              uses: actions/setup-python@v3
               with:
                 python-version: "3.11"
 
-            - name : Install Dependencies
+            - name: Install Dependencies
               run: |
                 python -m pip install --upgrade pip
                 pip install flake8 pytest
-                if [ -f requirements.txt ]; then pip intsall -r requirements.txt; fi
+                if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-            - name: Docker Build and Push
-              run : |
-                docker build -t medical
+            - name: Build Docker Image
+              run: |
+                docker build -t medical .
                 docker tag medical nikhiltmahendrakar/medical:latest
-                docker login -u ${{secrets.DOCKERHUB_USERNAME}} -P ${{secrets.DOCKERHUB_TOKEN}}
+
+            - name: Docker Login and Push
+              run: |
+                echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
                 docker push nikhiltmahendrakar/medical:latest
-                
